@@ -1,3 +1,31 @@
+import { t, toSimplified } from './i18n.js';
+
+const STATE_MESSAGES = {
+  "練習記錄": "Practice note",
+  "這不是可讀取的花園備份，請選擇 LUMINA 的第 1 版備份檔。": "This backup cannot be read. Please choose a LUMINA version 1 backup file.",
+  "原有的花園資料暫時無法讀取，已保留原檔。你可以繼續這次遊玩，新的進度暫時不會覆蓋原檔。": "Your saved garden could not be read. The original is preserved. You can keep playing, but this session will not overwrite it.",
+  "瀏覽器暫時無法儲存花園。你可以繼續這次遊玩，離開前請匯出備份。": "This browser cannot save your garden right now. You can keep playing; export a backup before you leave.",
+  "原有資料仍需修復，新進度暫時只保留在這次遊玩中。請先匯出備份，避免覆蓋原檔。": "Your original data still needs repair. New progress is kept only for this session. Export a backup to protect it.",
+  "目前無法儲存進度。你仍可繼續遊玩，離開前請匯出備份。": "Progress cannot be saved right now. You can keep playing; export a backup before you leave.",
+  "找不到這個心願，請先在花園選擇一顆種子。": "This wish could not be found. Choose a seed in your garden first.",
+  "請先為這個心願寫下一個名字。": "Give this wish a name first.",
+  "請寫下一個今天能做到的小行動。": "Write one small action you can take today.",
+  "花園的 6 個位置已種滿，先珍藏一個心願，就能騰出新的位置。": "All six spaces are planted. Archive a wish to make room for a new one.",
+  "花園已收藏 60 個心願，請先匯出備份。": "You have saved 60 wishes. Please export a backup first.",
+  "先收集光點並選一個小行動，再回來記錄完成。": "Collect your lights and choose a small action before recording it as complete.",
+  "找不到這個心願。": "This wish could not be found.",
+  "找不到這位創作者的練習，請從靈感書房重新選擇。": "This practice could not be found. Choose it again in the Inspiration Library.",
+  "找不到要連結的心願，請重新選擇，或先不連結心願。": "The wish you want to link could not be found. Choose another wish, or save this note without a link.",
+  "已保留 2,000 則練習筆記，請先匯出備份。": "You have saved 2,000 practice notes. Please export a backup first."
+};
+function stateMessage(hant) { return t(hant,STATE_MESSAGES[hant]); }
+export function localizeStateMessage(message) {
+  for(const [hant,english] of Object.entries(STATE_MESSAGES)) {
+    if(message===hant || message===english || message===toSimplified(hant))return t(hant,english);
+  }
+  return message;
+}
+
 /**
  * Browser-local garden state. Every mutation returns a new state and never writes
  * storage by itself. A wish earns six lights once when its daily session is
@@ -100,7 +128,7 @@ function normalizePracticeNotes(input, wishById) {
       id: raw.id,
       creatorId: raw.creatorId,
       creatorName: text(raw.creatorName, 100),
-      practiceTitle: text(raw.practiceTitle, 100) || '練習記錄',
+      practiceTitle: text(raw.practiceTitle, 100) || stateMessage("練習記錄"),
       reflection: text(raw.reflection, 1000),
       action,
       // Keep the note even if its original wish was omitted from an import.
@@ -119,7 +147,7 @@ function normalizePracticeNotes(input, wishById) {
  * consumers must render it with textContent or escape it before HTML insertion. */
 export function normalizeState(input) {
   if (!object(input) || input.version !== 1 || !Array.isArray(input.wishes)) {
-    throw new Error('這不是可讀取的花園備份，請選擇 LUMINA 的第 1 版備份檔。');
+    throw new Error(stateMessage("這不是可讀取的花園備份，請選擇 LUMINA 的第 1 版備份檔。"));
   }
   const createdAt = iso(input.createdAt, now());
   const wishes = [];
@@ -205,8 +233,8 @@ export function loadState(storage) {
     return {
       state: emptyState(),
       warning: corrupted
-        ? '原有的花園資料暫時無法讀取，已保留原檔。你可以繼續這次遊玩，新的進度暫時不會覆蓋原檔。'
-        : '瀏覽器暫時無法儲存花園。你可以繼續這次遊玩，離開前請匯出備份。'
+        ? stateMessage("原有的花園資料暫時無法讀取，已保留原檔。你可以繼續這次遊玩，新的進度暫時不會覆蓋原檔。")
+        : stateMessage("瀏覽器暫時無法儲存花園。你可以繼續這次遊玩，離開前請匯出備份。")
     };
   }
 }
@@ -218,20 +246,20 @@ export function saveState(state, storage) {
     if (corruptStorage.has(target)) {
       const original = corruptStorage.get(target);
       if (target.getItem(STORAGE_KEY) === original) {
-        return { ok: false, error: '原有資料仍需修復，新進度暫時只保留在這次遊玩中。請先匯出備份，避免覆蓋原檔。' };
+        return { ok: false, error: stateMessage("原有資料仍需修復，新進度暫時只保留在這次遊玩中。請先匯出備份，避免覆蓋原檔。") };
       }
       corruptStorage.delete(target);
     }
     target.setItem(STORAGE_KEY, JSON.stringify(normalizeState(state)));
     return { ok: true, error: null };
   } catch (error) {
-    return { ok: false, error: '目前無法儲存進度。你仍可繼續遊玩，離開前請匯出備份。' };
+    return { ok: false, error: stateMessage("目前無法儲存進度。你仍可繼續遊玩，離開前請匯出備份。") };
   }
 }
 
 function activeWish(state, id) {
   const wish = state.wishes.find(item => item.id === id && !item.archived);
-  if (!wish) throw new Error('找不到這個心願，請先在花園選擇一顆種子。');
+  if (!wish) throw new Error(stateMessage("找不到這個心願，請先在花園選擇一顆種子。"));
   return wish;
 }
 
@@ -241,22 +269,22 @@ function replaceWish(state, changed) {
 
 function requireTitle(value) {
   const title = text(value, 80);
-  if (!title) throw new Error('請先為這個心願寫下一個名字。');
+  if (!title) throw new Error(stateMessage("請先為這個心願寫下一個名字。"));
   return title;
 }
 
 function requireAction(value) {
   const action = text(value, 240);
-  if (!action) throw new Error('請寫下一個今天能做到的小行動。');
+  if (!action) throw new Error(stateMessage("請寫下一個今天能做到的小行動。"));
   return action;
 }
 
 export function addWish(state, { category: requestedCategory, title, vision } = {}) {
   const cleanTitle = requireTitle(title);
   if (state.wishes.filter(wish => !wish.archived).length >= MAX_ACTIVE) {
-    throw new Error('花園的 6 個位置已種滿，先珍藏一個心願，就能騰出新的位置。');
+    throw new Error(stateMessage("花園的 6 個位置已種滿，先珍藏一個心願，就能騰出新的位置。"));
   }
-  if (state.wishes.length >= MAX_WISHES) throw new Error('花園已收藏 60 個心願，請先匯出備份。');
+  if (state.wishes.length >= MAX_WISHES) throw new Error(stateMessage("花園已收藏 60 個心願，請先匯出備份。"));
   const wish = {
     id: uid(),
     category: category(requestedCategory),
@@ -294,7 +322,7 @@ export function completeSession(state, id, { action, note } = {}) {
   const wish = activeWish(state, id);
   const date = todayKey();
   const previous = wish.sessions.find(session => session.date === date);
-  if (!previous) throw new Error('先收集光點並選一個小行動，再回來記錄完成。');
+  if (!previous) throw new Error(stateMessage("先收集光點並選一個小行動，再回來記錄完成。"));
   if (previous.completedAt) return state;
   const cleanAction = requireAction(action === undefined ? previous.action : action);
   const completedAt = now();
@@ -327,7 +355,7 @@ export function completeSession(state, id, { action, note } = {}) {
 
 export function archiveWish(state, id) {
   const wish = state.wishes.find(item => item.id === id);
-  if (!wish) throw new Error('找不到這個心願。');
+  if (!wish) throw new Error(stateMessage("找不到這個心願。"));
   if (wish.archived) return state;
   const next = replaceWish(state, { ...wish, archived: true });
   return {
@@ -358,25 +386,25 @@ export function addPracticeNote(state, {
   creatorId, creatorName, practiceTitle, reflection, action, wishId = null
 } = {}) {
   if (!PRACTICE_CREATOR_IDS.has(creatorId)) {
-    throw new Error('找不到這位創作者的練習，請從靈感書房重新選擇。');
+    throw new Error(stateMessage("找不到這位創作者的練習，請從靈感書房重新選擇。"));
   }
   const cleanAction = requireAction(action);
   const linkedWishId = wishId === undefined || wishId === null || wishId === '' ? null : wishId;
   if (linkedWishId !== null && (!validId(linkedWishId) || !state.wishes.some(wish => wish.id === linkedWishId))) {
-    throw new Error('找不到要連結的心願，請重新選擇，或先不連結心願。');
+    throw new Error(stateMessage("找不到要連結的心願，請重新選擇，或先不連結心願。"));
   }
   const existing = normalizePracticeNotes(
     state.practiceNotes,
     new Map(state.wishes.map(wish => [wish.id, wish]))
   );
   if (existing.length >= MAX_PRACTICE_NOTES) {
-    throw new Error('已保留 2,000 則練習筆記，請先匯出備份。');
+    throw new Error(stateMessage("已保留 2,000 則練習筆記，請先匯出備份。"));
   }
   const note = {
     id: uid('practice'),
     creatorId,
     creatorName: text(creatorName, 100),
-    practiceTitle: text(practiceTitle, 100) || '練習記錄',
+    practiceTitle: text(practiceTitle, 100) || stateMessage("練習記錄"),
     reflection: text(reflection, 1000),
     action: cleanAction,
     wishId: linkedWishId,

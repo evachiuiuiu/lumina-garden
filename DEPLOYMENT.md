@@ -1,4 +1,6 @@
-# 在 Render 部署 LUMINA
+# 在 Render 部署 LUMINA｜微光日常
+
+**LUMINA · Little by Little** 的正式遊玩網址：[https://lumina-garden-tfc6.onrender.com/](https://lumina-garden-tfc6.onrender.com/)。
 
 LUMINA 是純前端遊戲，頁面、程式和 SVG 素材都放在 `dist/`。本版本沒有後端、資料庫、套件相依或 API 金鑰；Render 使用 **Static Site** 類型即可。遊戲進度由使用者自己的瀏覽器保存。
 
@@ -8,11 +10,11 @@ LUMINA 是純前端遊戲，頁面、程式和 SVG 素材都放在 `dist/`。本
 
 - `dist/` 全部正式遊戲檔案。
 - `render.yaml`、`package.json`、`.gitignore`。
-- `README.md`、`DEPLOYMENT.md`、`SOURCES.md` 與 `LICENSE`。
+- `README.md`、`DEPLOYMENT.md`、`SOURCES.md`、`LICENSE` 與 `THIRD_PARTY_NOTICES.md`；`dist/` 內的 OpenCC 授權原文也須保留。
 
 若從其他託管平台匯出，請用乾淨的公開副本建立 Git 歷史；排除私人託管設定、原有 `.git/`、環境檔、個人備份、瀏覽器測試資料與登入資訊。`.gitignore` 只避免新增被忽略的檔案，並不會移除已經追蹤的內容或歷史版本。
 
-根目錄的 `LICENSE` 採用 MIT。公開 GitHub 倉庫與開源授權是兩件事，授權文件讓其他人知道如何使用、修改和散布原始碼。[GitHub 授權說明](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/licensing-a-repository)
+根目錄的 `LICENSE` 以 MIT 授權原創程式碼、圖像與文字；OpenCC 繁簡轉換字典另依 Apache-2.0 提供，詳見 [第三方授權說明](THIRD_PARTY_NOTICES.md)。公開 GitHub 倉庫與開源授權是兩件事，授權文件讓其他人知道如何使用、修改和散布原始碼。[GitHub 授權說明](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/licensing-a-repository)
 
 `package.json` 的 `private: true` 只是防止誤發佈到 npm，不會讓 GitHub 倉庫變成私人，也不影響本專案的 MIT 授權。
 
@@ -20,12 +22,14 @@ LUMINA 是純前端遊戲，頁面、程式和 SVG 素材都放在 `dist/`。本
 
 1. 將公開版本推送到 GitHub 的部署分支，例如 `main`。
 2. 登入 [Render Dashboard](https://dashboard.render.com/)，選擇 **New → Blueprint**。
-3. 連接 GitHub，選取你剛建立的倉庫。
+3. 連接 GitHub，選取你剛建立的倉庫；公開倉庫亦可在 **Public Git Repository** 欄位輸入倉庫 URL。
 4. 選擇要部署的分支，Blueprint Path 使用根目錄的 `render.yaml`。
 5. 檢查預覽：應只有一個名為 `lumina-garden` 的 Static Site，不應出現資料庫或常駐伺服器。
 6. 按 **Deploy Blueprint**，等待部署成功，再使用 Render 顯示的實際 `onrender.com` 網址開啟遊戲。
 
-此流程依據 [Render Blueprint 設定說明](https://render.com/docs/infrastructure-as-code)。Blueprint 與其中的服務只需建立一次；之後在同一倉庫更新程式即可。
+此流程依據 [Render Blueprint 設定說明](https://render.com/docs/infrastructure-as-code)。Blueprint 與其中的服務只需建立一次；之後更新同一倉庫，再依實際連接狀態自動或手動部署。
+
+目前正式網站是從公開倉庫 URL 建立的 Blueprint，服務的 **Auto-Deploy** 畫面顯示 **On Commit**。這是設定狀態；尚未實際驗證 GitHub 提交能否觸發此連接的自動部署。請以 Render **Deploys** 頁面的提交版本及部署結果為準，更新方式見第 4 節。
 
 ### 隨附設定的含義
 
@@ -35,7 +39,7 @@ LUMINA 是純前端遊戲，頁面、程式和 SVG 素材都放在 `dist/`。本
 | `runtime` | `static` | 靜態網站，由 CDN 提供檔案 |
 | `buildCommand` | `"true"` | 執行成功的空操作，保留已完成的 `dist/` |
 | `staticPublishPath` | `./dist` | 只發佈正式網站目錄 |
-| `autoDeployTrigger` | `commit` | 部署分支每次提交後自動重新部署 |
+| `autoDeployTrigger` | `commit` | 設定為由部署分支的新提交觸發；能否生效仍需檢查 Git provider 連接狀態 |
 | `SKIP_INSTALL_DEPS` | `"true"` | 跳過不需要的自動套件安裝 |
 
 Blueprint 規格要求非 Docker 服務提供 `buildCommand`，所以這裡使用字串 `"true"`，不留空，也不執行不存在的 `npm run build`。沒有 `startCommand`、埠號或 `region` 設定。`repo` 與 `branch` 留給連接 Blueprint 時選擇的倉庫和分支。[Blueprint 欄位規格](https://render.com/docs/blueprint-spec)
@@ -54,13 +58,15 @@ Render 預設會嘗試安裝靜態網站的相依套件；`SKIP_INSTALL_DEPS=tru
 | Build Command | `true` |
 | Publish Directory | `dist` |
 | Environment Variable | `SKIP_INSTALL_DEPS` = `true` |
-| Auto-Deploy | On Commit |
+| Auto-Deploy | On Commit（如連接方式支援） |
 
 最後按 **Create Static Site**。Blueprint 與手動表單是兩種建立方式，為同一個正式網站選擇其中一種即可。[Render Static Sites](https://render.com/docs/static-sites)
 
 ## 4. 更新與其他人自行部署
 
-本專案 Blueprint 使用 `autoDeployTrigger: commit`。當部署分支有新提交，Render 會依該分支重新發佈 `dist/`。如果你只想手動發佈，可把這個欄位改成字串 `off` 後同步 Blueprint。
+本專案 Blueprint 使用 `autoDeployTrigger: commit`，但不是所有公開倉庫 URL 連接都會自動收到提交更新。Git provider 已正確連接且支援自動部署時，可用一次提交檢查 **Deploys** 是否出現對應版本，確認後再依賴自動更新。
+
+若新提交沒有自動觸發，或你希望立即發佈，請到服務頁使用 **Manual Deploy** 部署最新提交。若修改的是 `render.yaml`，也可在 Blueprint 頁使用 **Manual sync** 同步設定。若只想手動發佈，可把 `autoDeployTrigger` 改成字串 `off` 後同步 Blueprint。[Render 部署說明](https://render.com/docs/deploys)
 
 其他開發者建議先 Fork 倉庫，再連接自己的 Fork；之後即可自行修改內容、控制發佈。
 
@@ -73,6 +79,8 @@ https://render.com/deploy?repo=https://github.com/YOUR_FORK_OWNER/YOUR_FORK_REPO
 若未來提供直接部署原始倉庫的公開按鈕，Render 官方建議為該模板設定 `autoDeployTrigger: off`，避免原始倉庫的後續提交自動更新所有使用者部署的副本。[Deploy to Render Button](https://render.com/docs/deploy-to-render)
 
 ## 5. 進度保存與更換網址
+
+本次更名與三語介面更新保留 `lumina.garden.v1` 和既有 JSON 備份格式。單純切換語言不需要遷移進度：右上角可選 **繁體中文／简体中文／English**，預設為繁體中文；語言選擇另存於 `lumina.locale.v1`。使用者保存的心願、行動和筆記維持原文。
 
 瀏覽器會把每個網站來源的資料分開保存。通訊協定、網域或連接埠不同，都有自己的 `localStorage`。從私人 Site、本機預覽、GitHub Pages 或其他網址移到 Render 時，原本的花園進度不會自動出現；同一來源內的不同路徑則共用儲存空間。[MDN：localStorage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage)
 
@@ -101,6 +109,7 @@ python3 -m http.server 8000 --directory dist
 - [Static Sites](https://render.com/docs/static-sites)
 - [Blueprint YAML Reference](https://render.com/docs/blueprint-spec)
 - [Render Blueprints](https://render.com/docs/infrastructure-as-code)
+- [Render Deploys](https://render.com/docs/deploys)
 - [Deploy to Render Button](https://render.com/docs/deploy-to-render)
 - [Deploy for Free](https://render.com/docs/free)
 - [GitHub：Licensing a repository](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/licensing-a-repository)

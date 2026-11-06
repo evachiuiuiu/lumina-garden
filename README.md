@@ -1,14 +1,20 @@
-# LUMINA｜顯化花園
+# LUMINA｜微光日常
 
 **讓心願，慢慢開花。**
 
 **正式遊玩：** [https://lumina-garden-tfc6.onrender.com/](https://lumina-garden-tfc6.onrender.com/)
 
-LUMINA 是一個以願景書寫、日常小行動與花園養成為核心的繁體中文開源網頁遊戲。種下一個心願，為今天選一件做得到的事，再用花朵記住自己的累積。靈感書房則整理華語與英語創作者的公開資源，搭配可保存的原創練習。
+LUMINA｜微光日常（英文名 **LUMINA · Little by Little**）是一個圍繞願景書寫、日常小行動與花園養成的開源網頁遊戲，提供繁體中文、簡體中文和英文介面。種下一個心願，為今天選一件做得到的事，再用花朵記住自己的累積。靈感書房則整理華語與英語創作者的公開資源，搭配可保存的原創練習。
 
 遊戲本身不設帳號；所有進度保存在目前的瀏覽器。專案使用 HTML、CSS、原生 JavaScript 與本機 SVG，無須安裝套件、建置工具、後端或 API 金鑰。
 
-[Render 部署指南](DEPLOYMENT.md) · [資料來源與編輯說明](SOURCES.md) · [MIT 授權](LICENSE)
+[Render 部署指南](DEPLOYMENT.md) · [資料來源與編輯說明](SOURCES.md) · [MIT 授權](LICENSE) · [第三方授權](THIRD_PARTY_NOTICES.md)
+
+## 語言切換
+
+右上角語言選單提供 **繁體中文／简体中文／English**，首次開啟預設為繁體中文。選擇會保存在目前瀏覽器的 `lumina.locale.v1`，再次開啟時沿用。介面、引導、預設行動卡和書房練習會隨語言更新；使用者已輸入或保存的心願、行動、反思與筆記保留原文。
+
+語言偏好獨立於遊戲進度：進度鍵名仍為 `lumina.garden.v1`，既有 JSON 備份格式不變。更名或切換語言不需要重建花園，也不會改寫既有記錄。
 
 ## 怎樣玩
 
@@ -71,11 +77,11 @@ python3 -m http.server 8000 --directory dist
 | Publish Directory | `dist` |
 | 環境變數 | `SKIP_INSTALL_DEPS=true` |
 
-Blueprint 使用部署分支的新提交觸發自動部署。完整的 GitHub 準備、Render 表單設定、Fork 部署與額度說明見 [DEPLOYMENT.md](DEPLOYMENT.md)。實際網站網址以你建立的託管服務為準。
+Blueprint 設定為 `autoDeployTrigger: commit`；新提交能否自動觸發部署，取決於 Git provider 的連接狀態。若以公開倉庫 URL 連接而未自動更新，可在 Render 使用 **Manual Deploy** 發佈最新提交。完整的 GitHub 準備、Render 表單設定、Fork 部署與額度說明見 [DEPLOYMENT.md](DEPLOYMENT.md)。實際網站網址以你建立的託管服務為準。
 
 ## 資料保存與備份
 
-心願、行動、手帳、靈感筆記與偏好設定儲存在瀏覽器的 `localStorage`，鍵名為 `lumina.garden.v1`。本版本沒有帳號或伺服器同步，也不會把這些內容上傳到遊戲後端。點選來源連結時，瀏覽器會前往第三方網站。
+心願、行動、手帳、靈感筆記與音效偏好儲存在瀏覽器的 `localStorage`，鍵名為 `lumina.garden.v1`。本版本沒有帳號或伺服器同步，也不會把這些內容上傳到遊戲後端。點選來源連結時，瀏覽器會前往第三方網站。
 
 資料依網站來源保存；通訊協定、網域或連接埠不同，都會使用不同的儲存空間。私人 Site、Render、GitHub Pages 或本機預覽站之間的進度不會自動互通。清除網站資料、切換瀏覽器／裝置，或結束無痕瀏覽，也可能使原本進度無法繼續使用。[localStorage 的瀏覽器行為說明](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage)
 
@@ -95,6 +101,8 @@ Blueprint 使用部署分支的新提交觸發自動部署。完整的 GitHub �
 | --- | --- |
 | [dist/index.html](dist/index.html) | 網站入口 |
 | [dist/app.js](dist/app.js) | 頁面、儀式與互動流程 |
+| [dist/i18n.js](dist/i18n.js) | 三語切換、語言偏好與頁面中繼資料 |
+| [dist/zh-hans.js](dist/zh-hans.js) | 隨網站提供的繁簡轉換字典與轉換函式 |
 | [dist/state.js](dist/state.js) | 本機儲存、備份驗證、每日獎勵與靈感筆記 |
 | [dist/content.js](dist/content.js) | 心願主題、行動卡與遊戲引導 |
 | [dist/learning-ui.js](dist/learning-ui.js) | 書房篩選、來源卡片、練習與筆記版面 |
@@ -106,6 +114,7 @@ Blueprint 使用部署分支的新提交觸發自動部署。完整的 GitHub �
 | [render.yaml](render.yaml) | Render 靜態網站部署設定 |
 | [SOURCES.md](SOURCES.md) | 來源目錄、取得方式與編輯原則 |
 | [DEPLOYMENT.md](DEPLOYMENT.md) | GitHub → Render 部署與資料遷移 |
+| [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) | OpenCC 字典來源、修改與 Apache-2.0 授權說明 |
 
 ## 修改與貢獻
 
@@ -114,5 +123,7 @@ Blueprint 使用部署分支的新提交觸發自動部署。完整的 GitHub �
 ## 授權與致謝
 
 本倉庫的原創程式碼、SVG 圖像與 LUMINA 原創文字依 [MIT License](LICENSE) 提供。
+
+`dist/zh-hans.js` 的繁簡轉換字典衍生自 OpenCC，依 **Apache-2.0** 提供；授權原文保留於 [OpenCC-LICENSE.txt](dist/licenses/OpenCC-LICENSE.txt)。來源版本與修改說明見 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)。
 
 連結指向的第三方文章、影片、書籍、PDF 與課程維持其原有授權及權利，**不因本站收錄而改以 MIT 授權**。收錄作者與來源不表示作者、出版社或平台對 LUMINA 的合作、認可或代言。完整的來源歸屬與原創練習說明見 [SOURCES.md](SOURCES.md)。
