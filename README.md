@@ -2,6 +2,8 @@
 
 **讓心願，慢慢開花。**
 
+**正式遊玩：** [https://lumina-garden-tfc6.onrender.com/](https://lumina-garden-tfc6.onrender.com/)
+
 LUMINA 是一個以願景書寫、日常小行動與花園養成為核心的繁體中文開源網頁遊戲。種下一個心願，為今天選一件做得到的事，再用花朵記住自己的累積。靈感書房則整理華語與英語創作者的公開資源，搭配可保存的原創練習。
 
 遊戲本身不設帳號；所有進度保存在目前的瀏覽器。專案使用 HTML、CSS、原生 JavaScript 與本機 SVG，無須安裝套件、建置工具、後端或 API 金鑰。
