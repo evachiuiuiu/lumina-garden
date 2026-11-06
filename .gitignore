@@ -1,0 +1,14 @@
+# Local dependencies and environment files
+node_modules/
+.env
+.env.*
+!.env.example
+*.log
+.DS_Store
+
+# Private hosting metadata; do not include it in a public source export.
+.openai/
+
+# Local browser QA output
+playwright-report/
+test-results/

@@ -1,0 +1,186 @@
+// Official source links with original LUMINA practice copy.
+export const EN_CREATORS = [
+  {
+    id: 'lavendaire',
+    name: 'Aileen Xu · Lavendaire',
+    shortName: 'Lavendaire',
+    initials: 'AX',
+    language: '英文',
+    languageCode: 'en',
+    kind: '生活設計與日記',
+    description: '用日記、生活設計和小步行動，釐清對自己有意義的生活。適合探索方向、建立日常習慣時參考。',
+    tags: ['生活設計', '願景日記', '日常習慣'],
+    needs: ['clarity', 'action'],
+    approachNote: '從公開的生活設計提問延伸為 LUMINA 原創任務，把理想畫面連到今天做得到的一步。',
+    sources: [
+      {
+        label: '如何設計理想生活',
+        url: 'https://www.lavendaire.com/design-dream-life/',
+        access: '公開文章',
+        note: '從日常習慣、感受與關係出發，整理願景並規劃行動。',
+      },
+      {
+        label: '認識 Aileen 與 Lavendaire',
+        url: 'https://www.lavendaire.com/press/',
+        access: '公開介紹',
+        note: '官方創作者簡介、日記作品與分享經歷。',
+      },
+      {
+        label: 'Dream Life Series 免費系列',
+        url: 'https://www.lavendaire.com/joindreamlife/',
+        access: '需電郵領取',
+        note: '免費十節影片及電郵課程，附練習紙和日記提示。',
+      },
+    ],
+    practice: {
+      title: '理想的普通一天',
+      minutes: 5,
+      summary: '從一個舒服的日常片段，找到你重視的感受，再為今天安排一小步。',
+      steps: [
+        {
+          title: '描繪日常',
+          body: '選一個理想的普通早晨或放工後，寫下你在哪裏、正在做甚麼。不需要完美，只要貼近你。',
+        },
+        {
+          title: '認出需要',
+          body: '這個畫面讓你感到平靜、自在、有連結，還是充滿創意？選一種最重要的感受。',
+        },
+        {
+          title: '看見已有的部分',
+          body: '回想現在生活中，有哪件小事已經帶來這種感受。把它記下來。',
+        },
+        {
+          title: '縮小行動',
+          body: '選一件今天能做到的小事，例如整理閱讀角落、畫十分鐘，或向朋友發出散步邀請。',
+        },
+        {
+          title: '放進日程',
+          body: '補上時間和地點：「今天＿＿時，在＿＿，我會＿＿。」讓這一步有個位置。',
+        },
+      ],
+      reflectionPrompt: '你想在日常多一點甚麼感受？現在哪件小事已經讓你靠近它？',
+      reflectionPlaceholder: '例如：我想多一點平靜。晚上放下電話讀幾頁書時，我已經感受到一點。',
+      actionExample: '今晚 9 時，在床邊讀 5 分鐘書。',
+      closing: '你想要的生活，可以從一個普通日子的小改變開始。',
+    },
+    verifiedAt: '2026-11-06',
+  },
+  {
+    id: 'roxie',
+    name: 'Roxie Nafousi',
+    shortName: 'Roxie',
+    initials: 'RN',
+    language: '英文',
+    languageCode: 'en',
+    kind: '願景與行動',
+    description: '以七步顯化框架整理願景、信念與行動。適合心裏已有方向，想把模糊願望變成每天一小步時參考。',
+    tags: ['願景釐清', '行動一致', '感謝資源'],
+    needs: ['action', 'selftalk'],
+    approachNote: '作者的框架含有靈性觀點；這裏的原創任務聚焦願景、現有資源與可由你決定的行動。',
+    sources: [
+      {
+        label: 'Manifest 官方框架介紹',
+        url: 'https://roxienafousi.com/books/manifest/',
+        access: '公開介紹',
+        note: '認識書籍與七步框架，包括願景、行為及感謝等主題。',
+      },
+      {
+        label: '官方讀書會討論指南',
+        url: 'https://roxienafousi.com/wp-content/uploads/2023/11/Book-Club-PDF.pdf',
+        access: '免費 PDF',
+        note: '提供反思與討論問題；部分內容適合配合書籍閱讀。',
+      },
+      {
+        label: '出版社作者介紹',
+        url: 'https://www.penguinrandomhouse.com/authors/2309228/roxie-nafousi/',
+        access: '公開介紹',
+        note: 'Penguin Random House 的作者背景與作品資料。',
+      },
+    ],
+    practice: {
+      title: '讓願望落地',
+      minutes: 4,
+      summary: '接住心裏的願望與猶豫，找出一項支持，再選今天能做的小動作。',
+      steps: [
+        {
+          title: '說清楚願景',
+          body: '用一句話描述想改善的生活面向，例如「我想更自在地分享自己的作品」。',
+        },
+        {
+          title: '接住卡住的地方',
+          body: '想想目前最難的是甚麼。害怕或沒有把握都可以，先寫下來，無須急着改變感受。',
+        },
+        {
+          title: '挑一個小動作',
+          body: '選一件由你能決定的事，例如選一張作品、寫三句介紹，或向信任的人徵求回饋。',
+        },
+        {
+          title: '找到支持',
+          body: '記下一項可運用的資源，例如十分鐘空檔、一份範例或一位願意聆聽的人，再安排何時行動。',
+        },
+      ],
+      reflectionPrompt: '你想向哪個願景踏出一步？目前的阻礙和已有的支持是甚麼？',
+      reflectionPlaceholder: '例如：我想分享作品，但有點怕被評價。我已有一張完成的畫，可以先寫一句介紹。',
+      actionExample: '今日晚飯後，選一張作品並寫一句介紹。',
+      closing: '願景可以很大，今天這一步可以很小。',
+    },
+    verifiedAt: '2026-11-06',
+  },
+  {
+    id: 'gabby',
+    name: 'Gabby Bernstein',
+    shortName: 'Gabby',
+    initials: 'GB',
+    language: '英文',
+    languageCode: 'en',
+    kind: '靈性自我探索',
+    description: '從靈性自我成長的角度，探索願望背後的動機，並練習為結果保留彈性。適合想放慢腳步、重新理解自己需要時參考。',
+    tags: ['動機探索', '結果彈性', '靈性觀點'],
+    needs: ['selftalk', 'flexibility'],
+    approachNote: '能量與宇宙是作者的靈性觀點；這裏的原創任務著重理解需要、保留選擇與溫和行動。',
+    sources: [
+      {
+        label: '顯化練習的建議與反思',
+        url: 'https://gabbybernstein.com/dos-donts-manifesting/',
+        access: '公開文章',
+        note: '談願望動機、對結果保持彈性與日常練習，內含作者的靈性觀點。',
+      },
+      {
+        label: '出版社作者與作品介紹',
+        url: 'https://www.penguinrandomhouse.com/authors/130866/gabrielle-bernstein/',
+        access: '公開介紹',
+        note: '認識 Gabrielle Bernstein，以及 Super Attractor 等作品。',
+      },
+      {
+        label: '官方免費冥想',
+        url: 'https://gabbybernstein.com/meditation/free-meditations/',
+        access: '需電郵領取',
+        note: '免費冥想以電郵寄送，需填寫名字及電郵；頁面亦設有行銷郵件選項。',
+      },
+    ],
+    practice: {
+      title: '願望背後的需要',
+      minutes: 3,
+      summary: '把目光放回真正重視的感受，看看還有哪些可能，再選擇今天能做的一步。',
+      steps: [
+        {
+          title: '問自己為甚麼',
+          body: '補完這句話：「我希望＿＿，因為我想在生活中多一點＿＿。」後一格可以是連結、成長或安全感。',
+        },
+        {
+          title: '留下其他可能',
+          body: '除了眼前想像的結果，還有哪一種方式能照顧同一個需要？先想出一個替代途徑。',
+        },
+        {
+          title: '做一件有益的事',
+          body: '選一件對自己或他人有益、由你能決定的小事，安排今天試一次。你不用先知道結果。',
+        },
+      ],
+      reflectionPrompt: '這個願望背後，你最重視的需要是甚麼？還有甚麼方式可以照顧它？',
+      reflectionPlaceholder: '例如：我想得到肯定，也想感到有連結。今天可以先真誠地關心一位朋友，並記下自己已完成的事。',
+      actionExample: '今晚花 3 分鐘，記下一件自己已完成、值得肯定的事。',
+      closing: '可以認真投入，也可以讓結果保有彈性。',
+    },
+    verifiedAt: '2026-11-06',
+  },
+];

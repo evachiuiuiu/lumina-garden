@@ -1,0 +1,12 @@
+# Render Blueprint: publish the browser-only game directly from dist/.
+# No package installation, server process, database, or API key is required.
+services:
+  - type: web
+    name: lumina-garden
+    runtime: static
+    buildCommand: "true"
+    staticPublishPath: ./dist
+    autoDeployTrigger: commit
+    envVars:
+      - key: SKIP_INSTALL_DEPS
+        value: "true"
